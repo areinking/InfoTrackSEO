@@ -25,14 +25,16 @@ namespace InfoTrackSEO.API.Controllers
         {
             _logger.LogInformation("Starting search operation.");
 
-            try
-            {
+            try {
                 var searchService = _searchServiceFactory.CreateSearchService(searchEngine);
                 var result = await searchService.SearchAsync(keywords, url, searchEngine);
                 return Ok(result);
             }
-            catch (Exception ex)
-            {
+            catch(ArgumentException argEx) {
+                _logger.LogError(argEx, "An error occurred during search operation.");
+                return BadRequest(argEx);
+            }
+            catch (Exception ex) {
                 _logger.LogError(ex, "An error occurred during search operation.");
                 return StatusCode(500, "An error occurred during the search operation. Please try again.");
             }
