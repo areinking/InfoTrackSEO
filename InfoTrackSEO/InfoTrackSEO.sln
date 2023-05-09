@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfoTrackSEO.Domain", "Info
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfoTrackSEO.Tests", "InfoTrackSEO.Tests\InfoTrackSEO.Tests.csproj", "{31C969F8-F4F4-4FBA-9814-DAE61C99DE9D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfoTrackSEO.Web", "InfoTrackSEO.Web\InfoTrackSEO.Web.csproj", "{036C54D9-CA6D-45AD-AE37-808D4BE4F6BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{31C969F8-F4F4-4FBA-9814-DAE61C99DE9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31C969F8-F4F4-4FBA-9814-DAE61C99DE9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31C969F8-F4F4-4FBA-9814-DAE61C99DE9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{036C54D9-CA6D-45AD-AE37-808D4BE4F6BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{036C54D9-CA6D-45AD-AE37-808D4BE4F6BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{036C54D9-CA6D-45AD-AE37-808D4BE4F6BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{036C54D9-CA6D-45AD-AE37-808D4BE4F6BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

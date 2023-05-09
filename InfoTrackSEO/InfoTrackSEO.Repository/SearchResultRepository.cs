@@ -1,7 +1,7 @@
 using InfoTrackSEO.Domain.Models;
 using MongoDB.Driver;
 
-namespace InfoTrackSEO.API.Repositories
+namespace InfoTrackSEO.Repository
 {
     public class SearchResultRepository : ISearchResultRepository
     {
@@ -13,7 +13,7 @@ namespace InfoTrackSEO.API.Repositories
             _searchResults = database.GetCollection<SearchResult>("SearchResults");
         }
 
-        public async Task<IEnumerable<SearchResult>> GetAllAsync(DateTime startDate, DateTime endDate)
+        public async Task<IEnumerable<SearchResult>> GetRangeAsync(DateTime startDate, DateTime endDate)
         {
             return await _searchResults
                 .Find(searchResult => searchResult.SearchDate >= startDate && searchResult.SearchDate <= endDate)

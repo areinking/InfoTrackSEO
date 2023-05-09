@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using InfoTrackSEO.Domain.DomainServices;
 using InfoTrackSEO.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,22 +11,22 @@ namespace InfoTrackSEO.API.Controllers
     public class SearchController : ControllerBase
     {
         private readonly ILogger<SearchController> _logger;
-        private readonly SearchServiceFactory _searchServiceFactory;
+        private readonly SearchProviderFactory _searchProviderFactory;
 
-        public SearchController(ILogger<SearchController> logger, SearchServiceFactory searchServiceFactory)
+        public SearchController(ILogger<SearchController> logger, SearchProviderFactory searchProviderFactory)
         {
             _logger = logger;
-            _searchServiceFactory = searchServiceFactory;
+            _searchProviderFactory = searchProviderFactory;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get(string keywords, string url, string searchEngine)
+        [HttpPost]
+        public async Task<IActionResult> Post(string keywords, string url, string searchEngine)
         {
             _logger.LogInformation("Starting search operation.");
 
             try {
-                var searchService = _searchServiceFactory.CreateSearchService(searchEngine);
-                var result = await searchService.SearchAsync(keywords, url, searchEngine);
+                var searchService = _searchProviderFactory.GetSearchProvider(searchEngine);
+                var result = await searchService.GetSearchResultAsync(keywords, url);
                 return Ok(result);
             }
             catch(ArgumentException argEx) {

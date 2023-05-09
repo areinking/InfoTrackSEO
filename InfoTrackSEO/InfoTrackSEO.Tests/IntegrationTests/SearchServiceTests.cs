@@ -1,18 +1,15 @@
 using System.Threading.Tasks;
-using InfoTrackSEO.Domain.DomainServices;
 using Xunit;
 
 namespace InfoTrackSEO.Tests.IntegrationTests
 {
-    public class SearchServiceTests
+    public class SearchProviderTests
     {
-        private readonly GoogleSearchService _googleSearchService;
-        private readonly BingSearchService _bingSearchService;
+        private readonly GoogleSearchProvider _googleSearchProvider;
 
-        public SearchServiceTests()
+        public SearchProviderTests()
         {
-            _googleSearchService = new GoogleSearchService();
-            _bingSearchService = new BingSearchService();
+            _googleSearchProvider = new GoogleSearchProvider();
         }
 
         [Fact]
@@ -23,21 +20,7 @@ namespace InfoTrackSEO.Tests.IntegrationTests
             string url = "www.infotrack.com";
 
             // Act
-            var result = await _googleSearchService.SearchAsync(keywords, url, "Google");
-
-            // Assert
-            Assert.NotNull(result);
-        }
-
-        [Fact]
-        public async Task BingSearchService_WhenCalled_ReturnsPositions()
-        {
-            // Arrange
-            string keywords = "efiling integration";
-            string url = "www.infotrack.com";
-
-            // Act
-            var result = await _bingSearchService.SearchAsync(keywords, url, "Bing");
+            var result = await _googleSearchProvider.GetSearchResultAsync(keywords, url);
 
             // Assert
             Assert.NotNull(result);
