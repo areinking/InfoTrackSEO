@@ -54,23 +54,4 @@ namespace InfoTrackSEO.Domain.Models
         public IEnumerable<Result> Results {get; private set;}
         public string? Document {get; private set;}
     }
-
-    public class CreateSearchResult
-    {
-       public CreateSearchResult(string searchProvider,
-                           DateTime searchDate,
-                           string keywords,
-                           string targetUrl)
-       {
-            SearchProvider = searchProvider;
-            SearchDate = searchDate;
-            Keywords = keywords;
-            TargetUrl = targetUrl;
-        }
-
-        public string SearchProvider { get; }
-        public DateTime SearchDate { get; }
-        public string Keywords { get; }
-        public string TargetUrl { get; }
-    }
 }

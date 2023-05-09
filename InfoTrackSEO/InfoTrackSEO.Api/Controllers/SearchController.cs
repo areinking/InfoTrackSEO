@@ -20,9 +20,12 @@ namespace InfoTrackSEO.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(string keywords, string url, string searchEngine)
+        public async Task<IActionResult> Post([FromBody] SearchRequest searchRequest)
         {
             _logger.LogInformation("Starting search operation.");
+            string keywords = searchRequest.Keywords ?? string.Empty;
+            string url = searchRequest.Url ?? string.Empty;
+            string searchEngine = searchRequest.SearchEngine ?? string.Empty;
 
             try {
                 var searchService = _searchProviderFactory.GetSearchProvider(searchEngine);

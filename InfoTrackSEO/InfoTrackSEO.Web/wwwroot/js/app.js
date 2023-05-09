@@ -4,7 +4,7 @@ function AppViewModel() {
     self.keywords = ko.observable('');
     self.url = ko.observable('');
     self.selectedSearchEngine = ko.observable('');
-    self.searchEngines = ko.observableArray(['Google', 'Bing']);
+    self.searchEngines = ko.observableArray(['Google']);
     self.searchResults = ko.observableArray([]);
 
     self.search = function() {
