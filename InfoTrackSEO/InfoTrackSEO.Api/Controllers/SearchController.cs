@@ -27,7 +27,7 @@ namespace InfoTrackSEO.API.Controllers
             try {
                 var searchService = _searchProviderFactory.GetSearchProvider(searchEngine);
                 var result = await searchService.GetSearchResultAsync(keywords, url);
-                return Ok(result);
+                return Ok(result.ToString());
             }
             catch(ArgumentException argEx) {
                 _logger.LogError(argEx, "An error occurred during search operation.");

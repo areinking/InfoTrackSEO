@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using InfoTrackSEO.Domain.Models;
 
 public abstract class BaseSearchProvider : ISearchProvider
@@ -45,5 +46,19 @@ public abstract class BaseSearchProvider : ISearchProvider
         return content;
     }
 
-    protected abstract IEnumerable<Result> ParseSearchResults(string searchContent, string targetUrl);
+    protected IEnumerable<Result> ParseSearchResults(string searchContent, string targetUrl)
+    {
+        var searchResults = GetSearchResultLinks(searchContent);
+        var positions = new List<int>();
+        int position = 1;
+
+        foreach (var resultUrl in searchResults)
+        {
+            yield return new Result { Url = resultUrl, Position = position, IsHit = resultUrl.Contains(targetUrl) };
+            
+            position++;
+        }
+    }
+
+    protected abstract IEnumerable<string> GetSearchResultLinks(string document);
 }

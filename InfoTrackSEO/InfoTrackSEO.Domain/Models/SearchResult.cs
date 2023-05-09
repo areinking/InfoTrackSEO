@@ -11,7 +11,7 @@ namespace InfoTrackSEO.Domain.Models
             Results = Enumerable.Empty<Result>();
         }
 
-        public void SetResults(IEnumerable<Result> results)
+        public SearchResult SetResults(IEnumerable<Result> results)
         {
             if (Results.Any())
             {
@@ -19,6 +19,32 @@ namespace InfoTrackSEO.Domain.Models
             }
 
             Results = results;
+
+            return this;
+        }
+
+        public SearchResult SetDocument(string document)
+        {
+            if (!string.IsNullOrWhiteSpace(document))
+            {
+                throw new ArgumentException("Document has already be set from an executed search");
+            }
+
+            Document = document;
+
+            return this;
+        }
+
+        public override string ToString()
+        {
+            if (Results.Any())
+            {
+                return "0";
+            }
+
+            var hitPositions = Results.Where(r => r.IsHit).Select(r => r.Position);
+
+            return string.Join(", ", hitPositions);
         }
 
         public string SearchProvider {get; private set;}
@@ -26,6 +52,7 @@ namespace InfoTrackSEO.Domain.Models
         public string Keywords {get; private set;}
         public string TargetUrl { get; private set; }
         public IEnumerable<Result> Results {get; private set;}
+        public string? Document {get; private set;}
     }
 
     public class CreateSearchResult
