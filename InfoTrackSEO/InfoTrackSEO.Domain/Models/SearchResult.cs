@@ -47,6 +47,8 @@ namespace InfoTrackSEO.Domain.Models
             return string.Join(", ", hitPositions);
         }
 
+        public string Position { get {return this.ToString();}}
+
         public string SearchProvider {get; private set;}
         public DateTime SearchDate {get; private set;}
         public string Keywords {get; private set;}

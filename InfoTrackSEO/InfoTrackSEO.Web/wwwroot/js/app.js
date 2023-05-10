@@ -1,8 +1,8 @@
 function AppViewModel() {
     var self = this;
 
-    self.keywords = ko.observable('');
-    self.url = ko.observable('');
+    self.keywords = ko.observable('efile integration');
+    self.url = ko.observable('www.infotrack.com');
     self.selectedSearchEngine = ko.observable('');
     self.searchEngines = ko.observableArray(['Google']);
     self.searchResults = ko.observableArray([]);
@@ -15,6 +15,7 @@ function AppViewModel() {
         };
 
         fetch('https://localhost:5001/Search', {
+            mode: 'cors',
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

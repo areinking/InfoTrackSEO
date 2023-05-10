@@ -1,13 +1,23 @@
 using System;
 using System.Threading.Tasks;
 using InfoTrackSEO.Domain.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace InfoTrackSEO.API.Controllers
 {
+    public class SearchResultDto {
+        public string? Keywords { get; set; }
+        public string? URL { get; set; }
+        public string? Positions { get; set; }
+        public string? SearchDate { get; set; }
+        public string? SearchEngine { get; set; }
+    }
+
     [ApiController]
     [Route("[controller]")]
+    [EnableCors("cors")]
     public class SearchController : ControllerBase
     {
         private readonly ILogger<SearchController> _logger;
@@ -30,7 +40,13 @@ namespace InfoTrackSEO.API.Controllers
             try {
                 var searchService = _searchProviderFactory.GetSearchProvider(searchEngine);
                 var result = await searchService.GetSearchResultAsync(keywords, url);
-                return Ok(result.ToString());
+                return Ok(new SearchResultDto {
+                    Positions = result.ToString(),
+                    Keywords = Uri.UnescapeDataString(result.Keywords),
+                    SearchEngine = result.SearchProvider,
+                    SearchDate = result.SearchDate.ToShortDateString(),
+                    URL = result.TargetUrl
+                });
             }
             catch(ArgumentException argEx) {
                 _logger.LogError(argEx, "An error occurred during search operation.");

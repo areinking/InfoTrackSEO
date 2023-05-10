@@ -14,15 +14,16 @@
       "launchBrowser": true,
       "applicationUrl": "https://localhost:7201;http://localhost:5126",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development", "Urls": "http://localhost:5005"
       }
     },
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+        "ASPNETCORE_ENVIRONMENT": "Development", "Urls": "http://localhost:5045"
+      },
+      "Urls": "http://localhost:5432"
     }
   }
 }

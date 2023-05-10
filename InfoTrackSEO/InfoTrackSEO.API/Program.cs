@@ -2,6 +2,14 @@ using InfoTrackSEO.Repository;
 using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddCors(p => p.AddPolicy("cors", builder =>
+{
+    builder.WithOrigins("http://localhost:54321", "https://localhost:54321", "http://[::1]:54321", "https://[::1]:54321")
+           .AllowAnyMethod()
+           .AllowAnyHeader()
+           .SetIsOriginAllowedToAllowWildcardSubdomains()
+           .AllowCredentials();
+}));
 
 // Add services to the container.
 
@@ -9,7 +17,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 // Register search services
 builder.Services.AddTransient<GoogleSearchProvider>();
 builder.Services.AddSingleton<SearchProviderFactory>();
@@ -33,9 +40,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
+app.UseCors("cors");
 app.MapControllers();
 
 app.Run();

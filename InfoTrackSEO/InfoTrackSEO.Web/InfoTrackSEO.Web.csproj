@@ -1,9 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <ItemGroup>
-    <ProjectReference Include="..\InfoTrackSEO.Api\InfoTrackSEO.Api.csproj" />
-    <ProjectReference Include="..\InfoTrackSEO.Domain\InfoTrackSEO.Domain.csproj" />
-  </ItemGroup>
   <PropertyGroup>
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
   </PropertyGroup>
