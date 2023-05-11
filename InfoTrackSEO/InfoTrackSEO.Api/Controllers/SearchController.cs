@@ -33,13 +33,21 @@ namespace InfoTrackSEO.API.Controllers
         public async Task<IActionResult> Post([FromBody] SearchRequest searchRequest)
         {
             _logger.LogInformation("Starting search operation.");
+
+            if (!searchRequest.IsValid())
+            {
+                var errorMessage = "Search Request keywords, searchEngine, and Url must not be empty";
+                _logger.LogError(errorMessage);
+                return BadRequest(errorMessage);
+            }
+
             string keywords = searchRequest.Keywords ?? string.Empty;
             string url = searchRequest.Url ?? string.Empty;
             string searchEngine = searchRequest.SearchEngine ?? string.Empty;
 
             try {
                 var searchService = _searchProviderFactory.GetSearchProvider(searchEngine);
-                var result = await searchService.GetSearchResultAsync(keywords, url);
+                var result = await searchService.RunSearchRequestAsync(keywords, url);
                 return Ok(new SearchResultDto {
                     Positions = result.ToString(),
                     Keywords = Uri.UnescapeDataString(result.Keywords),

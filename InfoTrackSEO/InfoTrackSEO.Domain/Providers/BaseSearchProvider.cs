@@ -15,7 +15,7 @@ public abstract class BaseSearchProvider : ISearchProvider
     private readonly string _searchProvider;
     protected readonly KeyValuePair<string, string>? _apiKey;
     
-    public async Task<SearchResult> GetSearchResultAsync(string keywords, string targetUrl)
+    public async Task<SearchResult> RunSearchRequestAsync(string keywords, string targetUrl)
     {
         var searchResult = new SearchResult(new CreateSearchResult(_searchProvider, DateTime.Now, keywords, targetUrl));
 

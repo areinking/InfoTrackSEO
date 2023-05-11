@@ -2,5 +2,5 @@ using InfoTrackSEO.Domain.Models;
 
 public interface ISearchProvider
 {
-    Task<SearchResult> GetSearchResultAsync(string keywords, string targetUrl);
+    Task<SearchResult> RunSearchRequestAsync(string keywords, string targetUrl);
 }

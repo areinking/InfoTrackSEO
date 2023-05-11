@@ -29,18 +29,20 @@ namespace InfoTrackSEO.Tests.UnitTests
         public async Task Get_WhenCalled_Google_ReturnsOkResult()
         {
             // Arrange
-            string keywords = "efiling integration";
-            string url = "www.infotrack.com";
-            string searchEngine = "Google";
+            var searchRequest = new Mock<SearchRequest>().Object;
+            searchRequest.SearchEngine = "Google";
 
             var searchServiceMock = new Mock<ISearchProvider>();
             var createSearchResult = new Mock<CreateSearchResult>("",DateTime.Now,"","").Object;
             var searchResult = new Mock<SearchResult>(createSearchResult).Object;
-            searchServiceMock.Setup(service => service.GetSearchResultAsync(keywords, url))
-                .ReturnsAsync(searchResult);
+            searchServiceMock.Setup(service => 
+                                    service.RunSearchRequestAsync(
+                                        searchRequest.Keywords ?? string.Empty, 
+                                        searchRequest.Url ?? string.Empty))
+                             .ReturnsAsync(searchResult);
 
             // Act
-            var result = await _controller.Post(keywords, url, searchEngine);
+            var result = await _controller.Post(searchRequest);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
@@ -50,18 +52,19 @@ namespace InfoTrackSEO.Tests.UnitTests
         public async Task Get_WhenCalled_Foo_ReturnsBadRequestResult()
         {
             // Arrange
-            string keywords = "efiling integration";
-            string url = "www.infotrack.com";
-            string searchEngine = "foo";
+            var searchRequest = new Mock<SearchRequest>().Object;
 
             var searchServiceMock = new Mock<ISearchProvider>();
             var createSearchResult = new Mock<CreateSearchResult>("",DateTime.Now,"","").Object;
             var searchResult = new Mock<SearchResult>(createSearchResult).Object;
-            searchServiceMock.Setup(service => service.GetSearchResultAsync(keywords, url))
-                .ReturnsAsync(searchResult);
+            searchServiceMock.Setup(service => 
+                                    service.RunSearchRequestAsync(
+                                        searchRequest.Keywords ?? string.Empty, 
+                                        searchRequest.Url ?? string.Empty))
+                             .ReturnsAsync(searchResult);
 
             // Act
-            var result = await _controller.Post(keywords, url, searchEngine);
+            var result = await _controller.Post(searchRequest);
 
             // Assert
             Assert.IsType<BadRequestObjectResult>(result);

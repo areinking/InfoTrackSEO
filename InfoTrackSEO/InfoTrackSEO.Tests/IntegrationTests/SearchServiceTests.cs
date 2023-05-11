@@ -20,7 +20,7 @@ namespace InfoTrackSEO.Tests.IntegrationTests
             string url = "www.infotrack.com";
 
             // Act
-            var result = await _googleSearchProvider.GetSearchResultAsync(keywords, url);
+            var result = await _googleSearchProvider.RunSearchRequestAsync(keywords, url);
 
             // Assert
             Assert.NotNull(result);
