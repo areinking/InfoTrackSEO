@@ -25,35 +25,38 @@ namespace InfoTrackSEO.Domain.Models
 
         public SearchResult SetDocument(string document)
         {
-            if (!string.IsNullOrWhiteSpace(document))
+            if (!string.IsNullOrWhiteSpace(Document))
             {
                 throw new ArgumentException("Document has already be set from an executed search");
             }
 
-            Document = document;
+            Document = Uri.EscapeDataString(document);
 
             return this;
         }
 
         public override string ToString()
         {
-            if (Results.Any())
+            if (!Results.Any())
             {
                 return "0";
             }
 
-            var hitPositions = Results.Where(r => r.IsHit).Select(r => r.Position);
+            var hitPositions = Results.Where(r => r.IsHit).Select(r => r.Position).ToList();
 
             return string.Join(", ", hitPositions);
         }
 
-        public string Position { get {return this.ToString();}}
+        public string Position
+        {
+            get { return this.ToString(); }
+        }
 
-        public string SearchProvider {get; private set;}
-        public DateTime SearchDate {get; private set;}
-        public string Keywords {get; private set;}
+        public string SearchProvider { get; private set; }
+        public DateTime SearchDate { get; private set; }
+        public string Keywords { get; private set; }
         public string TargetUrl { get; private set; }
-        public IEnumerable<Result> Results {get; private set;}
-        public string? Document {get; private set;}
+        public IEnumerable<Result> Results { get; private set; }
+        public string? Document { get; private set; }
     }
 }

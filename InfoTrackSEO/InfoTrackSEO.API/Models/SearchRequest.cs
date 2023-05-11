@@ -6,8 +6,8 @@ public class SearchRequest
 
     public bool IsValid()
     {
-        return !string.IsNullOrWhiteSpace(this.Keywords) &&
-               !string.IsNullOrWhiteSpace(this.SearchEngine) &&
-               !string.IsNullOrWhiteSpace(this.Url);
+        return !string.IsNullOrWhiteSpace(this.Keywords)
+            && !string.IsNullOrWhiteSpace(this.SearchEngine)
+            && !string.IsNullOrWhiteSpace(this.Url);
     }
 }

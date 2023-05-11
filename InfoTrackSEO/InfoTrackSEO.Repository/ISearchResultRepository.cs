@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using InfoTrackSEO.Domain.Models;
 
 namespace InfoTrackSEO.Repository

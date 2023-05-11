@@ -1,20 +1,8 @@
-using System;
-using System.Threading.Tasks;
-using InfoTrackSEO.Domain.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace InfoTrackSEO.API.Controllers
 {
-    public class SearchResultDto {
-        public string? Keywords { get; set; }
-        public string? URL { get; set; }
-        public string? Positions { get; set; }
-        public string? SearchDate { get; set; }
-        public string? SearchEngine { get; set; }
-    }
-
     [ApiController]
     [Route("[controller]")]
     [EnableCors("cors")]
@@ -23,7 +11,10 @@ namespace InfoTrackSEO.API.Controllers
         private readonly ILogger<SearchController> _logger;
         private readonly SearchProviderFactory _searchProviderFactory;
 
-        public SearchController(ILogger<SearchController> logger, SearchProviderFactory searchProviderFactory)
+        public SearchController(
+            ILogger<SearchController> logger,
+            SearchProviderFactory searchProviderFactory
+        )
         {
             _logger = logger;
             _searchProviderFactory = searchProviderFactory;
@@ -36,7 +27,8 @@ namespace InfoTrackSEO.API.Controllers
 
             if (!searchRequest.IsValid())
             {
-                var errorMessage = "Search Request keywords, searchEngine, and Url must not be empty";
+                var errorMessage =
+                    "Search Request keywords, searchEngine, and Url must not be empty";
                 _logger.LogError(errorMessage);
                 return BadRequest(errorMessage);
             }
@@ -45,24 +37,34 @@ namespace InfoTrackSEO.API.Controllers
             string url = searchRequest.Url ?? string.Empty;
             string searchEngine = searchRequest.SearchEngine ?? string.Empty;
 
-            try {
+            try
+            {
                 var searchService = _searchProviderFactory.GetSearchProvider(searchEngine);
                 var result = await searchService.RunSearchRequestAsync(keywords, url);
-                return Ok(new SearchResultDto {
-                    Positions = result.ToString(),
-                    Keywords = Uri.UnescapeDataString(result.Keywords),
-                    SearchEngine = result.SearchProvider,
-                    SearchDate = result.SearchDate.ToShortDateString(),
-                    URL = result.TargetUrl
-                });
+                return Ok(
+                    new SearchResultDto
+                    {
+                        Positions = result.ToString(),
+                        Keywords = keywords,
+                        SearchEngine = searchEngine,
+                        SearchDate = result.SearchDate.ToShortDateString(),
+                        URL = url,
+                        Results = result.Results
+                    }
+                );
             }
-            catch(ArgumentException argEx) {
+            catch (ArgumentException argEx)
+            {
                 _logger.LogError(argEx, "An error occurred during search operation.");
                 return BadRequest(argEx);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 _logger.LogError(ex, "An error occurred during search operation.");
-                return StatusCode(500, "An error occurred during the search operation. Please try again.");
+                return StatusCode(
+                    500,
+                    "An error occurred during the search operation. Please try again."
+                );
             }
         }
     }

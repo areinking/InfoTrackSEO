@@ -1,26 +1,61 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+h1 {
+  color: #0696b7;
+}
+
+h2 {
+  color: #ef8b27;
+}
+
+.btn-outline-primary {
+  border-color: #ef8b27;
+}
+
+.btn-outline-primary:hover {
+  border-color: #0696b7;
+  background-color: #ef8b27;
+}
+
+.input[type="checkbox"] {
+  accent-color: #0696b7;
+}
+.input[type="checkbox"]:checked {
+  background-color: #0696b7;
+}
+
+.btn-primary,
+.btn-primary:active {
+  border-color: #0696b7;
+  background-color: #ef8b27;
+  font-weight: bold;
+}
+
+.btn-primary:hover {
+  background-color: #0696b7;
+  border-color: #ef8b27;
+  color: #ef8b27;
+  font-weight: bold;
+}
+
+.table-primary {
+  color: #ef8b27;
+}
+
+.form-search {
+  background-color: #0696b7;
+  padding-bottom: 15px;
+  padding-left: 15px;
+}
+
+.search-table {
+  background-color: #0696b7;
+  color: white;
+}
+
+.detail-table {
+  background-color: #ef8b27;
+  color: white;
 }
 
 #app {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 16px;
-}
-
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-th, td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
-}
-
-th {
-    background-color: #f2f2f2;
+  padding-top: 15px;
 }
