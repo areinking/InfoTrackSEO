@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using InfoTrackSEO.Domain.EventBus;
 using InfoTrackSEO.Domain.Repositories;
 using Moq;
 using Xunit;
@@ -17,7 +18,8 @@ namespace InfoTrackSEO.Tests.IntegrationTests
                 .Returns(new Mock<HttpClient>().Object);
             _googleSearchProvider = new GoogleSearchProvider(
                 new Mock<ISearchResultRepository>().Object,
-                httpClientFactoryMock.Object
+                httpClientFactoryMock.Object,
+                new EventBus() // simple console write line, so it's okay not being mocked
             );
         }
 

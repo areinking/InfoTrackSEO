@@ -1,6 +1,6 @@
+using InfoTrackSEO.Domain.EventBus;
 using InfoTrackSEO.Domain.Repositories;
 using Moq;
-using Xunit;
 
 namespace InfoTrackSEO.Tests.UnitTests
 {
@@ -16,7 +16,8 @@ namespace InfoTrackSEO.Tests.UnitTests
                 .Returns(
                     new GoogleSearchProvider(
                         new Mock<ISearchResultRepository>().Object,
-                        new Mock<IHttpClientFactory>().Object
+                        new Mock<IHttpClientFactory>().Object,
+                        new EventBus() // simple console write line, so it's okay not being mocked
                     )
                 );
             _factory = new SearchProviderFactory(serviceProviderMock.Object);

@@ -1,4 +1,5 @@
 using InfoTrackSEO.Domain;
+using InfoTrackSEO.Domain.EventBus;
 using InfoTrackSEO.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,6 +31,7 @@ internal class Program
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
         builder.Services.AddScoped<ISearchResultRepository, SearchResultRepository>();
+        builder.Services.AddScoped<IEventBus, EventBus>();
         builder.Services.AddHttpClient();
 
         var app = builder.Build();

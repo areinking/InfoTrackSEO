@@ -1,3 +1,4 @@
+using InfoTrackSEO.Domain.EventBus;
 using InfoTrackSEO.Domain.Models;
 using InfoTrackSEO.Domain.Repositories;
 
@@ -8,6 +9,7 @@ public abstract class BaseSearchProvider : ISearchProvider
         string url,
         ISearchResultRepository searchResultRepository,
         IHttpClientFactory httpClientFactory,
+        IEventBus eventBus,
         KeyValuePair<string, string>? apiKey = null
     )
     {
@@ -15,10 +17,12 @@ public abstract class BaseSearchProvider : ISearchProvider
         _searchProvider = searchProvider;
         _searchResultRepository = searchResultRepository;
         _httpClientFactory = httpClientFactory;
+        _eventBus = eventBus;
         _apiKey = apiKey;
     }
 
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IEventBus _eventBus;
     private readonly Uri _uri;
     private readonly string _searchProvider;
     protected readonly KeyValuePair<string, string>? _apiKey;
@@ -31,6 +35,10 @@ public abstract class BaseSearchProvider : ISearchProvider
         );
 
         await _searchResultRepository.AddAsync(searchResult);
+        var createSearchResultDomainEvent = new CreateSearchResultDomainEvent {
+            SearchResult = searchResult
+        };
+        await _eventBus.AsyncPublish(createSearchResultDomainEvent);
 
         var searchResultContents = await RunSearch(keywords, targetUrl) ?? string.Empty;
         searchResult.SetDocument(searchResultContents);
@@ -40,6 +48,10 @@ public abstract class BaseSearchProvider : ISearchProvider
         searchResult.SetResults(results);
 
         await _searchResultRepository.UpdateAsync(searchResult);
+        var updateSearchResultDomainEvent = new UpdateSearchResultDomainEvent {
+            SearchResult = searchResult
+        };
+        await _eventBus.AsyncPublish(updateSearchResultDomainEvent);
 
         return searchResult;
     }

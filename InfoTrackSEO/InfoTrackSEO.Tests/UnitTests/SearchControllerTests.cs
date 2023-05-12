@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using InfoTrackSEO.API.Controllers;
+using InfoTrackSEO.Domain.EventBus;
 using InfoTrackSEO.Domain.Models;
 using InfoTrackSEO.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,8 @@ namespace InfoTrackSEO.Tests.UnitTests
                 .Returns(new Mock<HttpClient>().Object);
             var googleSearchProvider = new GoogleSearchProvider(
                 new Mock<ISearchResultRepository>().Object,
-                httpClientFactoryMock.Object
+                httpClientFactoryMock.Object,
+                new EventBus() // simple console write line, so it's okay not being mocked
             );
             var serviceProviderMock = new Mock<IServiceProvider>();
 
