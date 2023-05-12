@@ -1,0 +1,33 @@
+# InfoTrack SEO API and UI
+
+## Solution Layout
+
+* InfoTrackSEO.Api
+  * The entry into the backend services
+  * Runs on port 5001 locally
+* InfoTrackSEO.Domain
+  * The main business logic of the app
+  * Also contains the repository layer, currently using EF
+  * The domain protects its integrity as tightly as it can
+* InfoTrackSEO.Tests
+  * Unit tests and integration tests
+* InfoTrackSEO.UITests
+  * Selenium tests for the UI
+* InfoTrackSEO.Web
+  * Static files served to interact with the API
+  * Used KnockoutJS
+  * Runs on port 54321 locally
+
+## Debugging
+
+* Install Sql Server LocalDb if you do not have it
+  * Create the InfoTrackSEO database
+  * The connection string is set for trusting windows authentication for the current user
+  * The database `should` automatically be migrated up when debugging
+* On the debug tab, launch the api project with .NET Core Launch (api) selection
+* Launch the web project with the .NET CoreLaunch (web) selection
+* A list will populate with previous entries
+* Enter keywords, a url to search for, and choose the search engine, and then click Submit
+  * The results will be added to the list below
+* Click the header fields to sort as needed
+* Check the View Detail box to see the links that were returned by the search engine
