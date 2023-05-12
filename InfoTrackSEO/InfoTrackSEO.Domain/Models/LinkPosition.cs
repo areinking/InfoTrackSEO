@@ -1,4 +1,4 @@
-public class Result
+public class LinkPosition
 {
     public int Position { get; set; }
     public string? Url { get; set; }

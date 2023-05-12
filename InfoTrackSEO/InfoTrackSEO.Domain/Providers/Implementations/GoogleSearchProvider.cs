@@ -1,9 +1,18 @@
 using System.Text.RegularExpressions;
+using InfoTrackSEO.Domain.Repositories;
 
 public class GoogleSearchProvider : BaseSearchProvider
 {
-    public GoogleSearchProvider()
-        : base("Google", "https://www.google.com/search?num=100&q=") { }
+    public GoogleSearchProvider(
+        ISearchResultRepository searchResultRepository,
+        IHttpClientFactory httpClientFactory
+    )
+        : base(
+            "Google",
+            "https://www.google.com/search?num=100&q=",
+            searchResultRepository,
+            httpClientFactory
+        ) { }
 
     protected override IEnumerable<Uri> GetSearchResultLinks(string document)
     {

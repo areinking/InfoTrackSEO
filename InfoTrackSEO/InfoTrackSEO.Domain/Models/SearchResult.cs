@@ -8,10 +8,11 @@ namespace InfoTrackSEO.Domain.Models
             SearchDate = createSearchResult.SearchDate;
             Keywords = Uri.EscapeDataString(createSearchResult.Keywords);
             TargetUrl = createSearchResult.TargetUrl;
-            Results = Enumerable.Empty<Result>();
+            Results = Enumerable.Empty<LinkPosition>();
+            Id = Guid.NewGuid();
         }
 
-        public SearchResult SetResults(IEnumerable<Result> results)
+        public SearchResult SetResults(IEnumerable<LinkPosition> results)
         {
             if (Results.Any())
             {
@@ -52,11 +53,12 @@ namespace InfoTrackSEO.Domain.Models
             get { return this.ToString(); }
         }
 
+        public Guid Id { get; private set; }
         public string SearchProvider { get; private set; }
         public DateTime SearchDate { get; private set; }
         public string Keywords { get; private set; }
         public string TargetUrl { get; private set; }
-        public IEnumerable<Result> Results { get; private set; }
+        public IEnumerable<LinkPosition> Results { get; private set; }
         public string? Document { get; private set; }
     }
 }

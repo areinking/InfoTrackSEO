@@ -1,4 +1,6 @@
 using System.Threading.Tasks;
+using InfoTrackSEO.Domain.Repositories;
+using Moq;
 using Xunit;
 
 namespace InfoTrackSEO.Tests.IntegrationTests
@@ -9,7 +11,14 @@ namespace InfoTrackSEO.Tests.IntegrationTests
 
         public SearchProviderTests()
         {
-            _googleSearchProvider = new GoogleSearchProvider();
+            var httpClientFactoryMock = new Mock<IHttpClientFactory>();
+            httpClientFactoryMock
+                .Setup(c => c.CreateClient(string.Empty))
+                .Returns(new Mock<HttpClient>().Object);
+            _googleSearchProvider = new GoogleSearchProvider(
+                new Mock<ISearchResultRepository>().Object,
+                httpClientFactoryMock.Object
+            );
         }
 
         [Fact]

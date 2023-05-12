@@ -7,6 +7,6 @@ namespace InfoTrackSEO.API.Controllers
         public string? Positions { get; set; }
         public string? SearchDate { get; set; }
         public string? SearchEngine { get; set; }
-        public IEnumerable<Result>? Results { get; set; }
+        public IEnumerable<LinkPosition>? Results { get; set; }
     }
 }

@@ -1,3 +1,4 @@
+using InfoTrackSEO.Domain.Repositories;
 using Moq;
 using Xunit;
 
@@ -12,7 +13,12 @@ namespace InfoTrackSEO.Tests.UnitTests
             var serviceProviderMock = new Mock<IServiceProvider>();
             serviceProviderMock
                 .Setup(serviceProvider => serviceProvider.GetService(typeof(GoogleSearchProvider)))
-                .Returns(new GoogleSearchProvider());
+                .Returns(
+                    new GoogleSearchProvider(
+                        new Mock<ISearchResultRepository>().Object,
+                        new Mock<IHttpClientFactory>().Object
+                    )
+                );
             _factory = new SearchProviderFactory(serviceProviderMock.Object);
         }
 
@@ -30,7 +36,9 @@ namespace InfoTrackSEO.Tests.UnitTests
         public void CreateSearchService_GivenInvalidEngine_ThrowsArgumentException()
         {
             // Act and Assert
-            Assert.Throws<System.ArgumentException>(() => _factory.GetSearchProvider("InvalidEngine"));
+            Assert.Throws<System.ArgumentException>(
+                () => _factory.GetSearchProvider("InvalidEngine")
+            );
         }
     }
 }

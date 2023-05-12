@@ -1,27 +1,36 @@
 using InfoTrackSEO.Domain.Models;
+using InfoTrackSEO.Domain.Repositories;
 
 public abstract class BaseSearchProvider : ISearchProvider
 {
     public BaseSearchProvider(
         string searchProvider,
         string url,
+        ISearchResultRepository searchResultRepository,
+        IHttpClientFactory httpClientFactory,
         KeyValuePair<string, string>? apiKey = null
     )
     {
         _uri = new Uri(url);
         _searchProvider = searchProvider;
+        _searchResultRepository = searchResultRepository;
+        _httpClientFactory = httpClientFactory;
         _apiKey = apiKey;
     }
 
+    private readonly IHttpClientFactory _httpClientFactory;
     private readonly Uri _uri;
     private readonly string _searchProvider;
     protected readonly KeyValuePair<string, string>? _apiKey;
+    private ISearchResultRepository _searchResultRepository;
 
     public async Task<SearchResult> RunSearchRequestAsync(string keywords, string targetUrl)
     {
         var searchResult = new SearchResult(
             new CreateSearchResult(_searchProvider, DateTime.Now, keywords, targetUrl)
         );
+
+        await _searchResultRepository.AddAsync(searchResult);
 
         var searchResultContents = await RunSearch(keywords, targetUrl) ?? string.Empty;
         searchResult.SetDocument(searchResultContents);
@@ -30,12 +39,14 @@ public abstract class BaseSearchProvider : ISearchProvider
 
         searchResult.SetResults(results);
 
+        await _searchResultRepository.UpdateAsync(searchResult);
+
         return searchResult;
     }
 
     protected async Task<string?> RunSearch(string keywords, string targetUrl)
     {
-        using var httpClient = new HttpClient();
+        using HttpClient httpClient = _httpClientFactory.CreateClient();
 
         var apiKeyHeaderKey = _apiKey.HasValue ? _apiKey.Value.Key : null;
         var apiKeyHeaderValue = _apiKey.HasValue ? _apiKey.Value.Value : null;
@@ -55,14 +66,14 @@ public abstract class BaseSearchProvider : ISearchProvider
         return content;
     }
 
-    protected IEnumerable<Result> ParseSearchResults(string searchContent, string targetUrl)
+    protected IEnumerable<LinkPosition> ParseSearchResults(string searchContent, string targetUrl)
     {
         var positions = new List<int>();
         int position = 1;
 
         foreach (var resultUrl in GetSearchResultLinks(searchContent))
         {
-            yield return new Result
+            yield return new LinkPosition
             {
                 Url = resultUrl.Host,
                 Position = position,
