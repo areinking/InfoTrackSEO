@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using InfoTrackSEO.Domain.Models;
 
 public class LinkPosition
@@ -14,6 +15,7 @@ public class LinkPosition
     public string? Url { get; set; }
     public bool IsHit { get; set; }
 
+    [JsonIgnore]
     public virtual SearchResult? SearchResult { get; set; }
     public Guid? SearchResultId
     {

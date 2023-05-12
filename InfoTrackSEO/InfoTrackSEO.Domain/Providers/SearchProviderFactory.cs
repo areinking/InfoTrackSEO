@@ -18,11 +18,13 @@ public class SearchProviderFactory
             case "google":
                 searchProvider = _serviceProvider.GetService<GoogleSearchProvider>();
                 break;
-            default: 
+            default:
                 throw new ArgumentException("Invalid search engine provided", searchProviderName);
-        };
+        }
+        ;
 
-        if (searchProvider == null) {
+        if (searchProvider == null)
+        {
             throw new Exception($"Cannot find the implementation for {searchProvider}");
         }
 

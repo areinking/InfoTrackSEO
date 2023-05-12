@@ -80,7 +80,13 @@
             </button>
           </form>
         </div>
-        <br /><br />
+        <div
+          class="spinner-border text-info"
+          role="status"
+          data-bind="css: {invisible: !$root.isFetching()}"
+        >
+          <span class="sr-only"></span>
+        </div>
         <div
           class="search-results"
           data-bind="css: {collapse: $root.searchResults().length === 0}"
@@ -149,7 +155,7 @@
                   </td>
                   <td data-bind="text: searchDate"></td>
                   <td data-bind="text: positions"></td>
-                  <td data-bind="text: keywords"></td>
+                  <td data-bind="text: decodeURIComponent(keywords)"></td>
                   <td data-bind="text: url"></td>
                   <td data-bind="text: searchEngine"></td>
                 </tr>

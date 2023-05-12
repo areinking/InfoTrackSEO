@@ -6,6 +6,14 @@ h2 {
   color: #ef8b27;
 }
 
+.spinner-border {
+  margin-top: 15px;
+}
+
+.text-info {
+  color: #0696b7;
+}
+
 .btn-outline-primary {
   border-color: #ef8b27;
 }

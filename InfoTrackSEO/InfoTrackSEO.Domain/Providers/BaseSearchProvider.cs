@@ -35,7 +35,8 @@ public abstract class BaseSearchProvider : ISearchProvider
         );
 
         await _searchResultRepository.AddAsync(searchResult);
-        var createSearchResultDomainEvent = new CreateSearchResultDomainEvent {
+        var createSearchResultDomainEvent = new CreateSearchResultDomainEvent
+        {
             SearchResult = searchResult
         };
         await _eventBus.AsyncPublish(createSearchResultDomainEvent);
@@ -48,7 +49,8 @@ public abstract class BaseSearchProvider : ISearchProvider
         searchResult.SetResults(results);
 
         await _searchResultRepository.UpdateAsync(searchResult);
-        var updateSearchResultDomainEvent = new UpdateSearchResultDomainEvent {
+        var updateSearchResultDomainEvent = new UpdateSearchResultDomainEvent
+        {
             SearchResult = searchResult
         };
         await _eventBus.AsyncPublish(updateSearchResultDomainEvent);

@@ -7,6 +7,24 @@ namespace InfoTrackSEO.Domain.Repositories
     {
         private readonly ApplicationDbContext _dbContext;
 
+        private async Task AddChildrenLinkPositions(IEnumerable<LinkPosition> linkPositions)
+        {
+            if (!linkPositions.Any())
+            {
+                return;
+            }
+
+            // We only add the results once and do not update, so no reason to update
+            foreach (var linkPosition in linkPositions)
+            {
+                if (!_dbContext.LinkPositions.Any(l => l.Id == linkPosition.Id))
+                {
+                    await _dbContext.AddAsync(linkPosition);
+                }
+            }
+            ;
+        }
+
         public SearchResultRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -17,15 +35,17 @@ namespace InfoTrackSEO.Domain.Repositories
             return await _dbContext.SearchResults.FindAsync(id);
         }
 
-        public async Task<IEnumerable<SearchResult>> GetByDateRangeAsync(DateTime startDate, DateTime endDate)
+        public IEnumerable<SearchResult> GetByDateRange(DateTime startDate, DateTime endDate)
         {
-            return await _dbContext.SearchResults
+            return _dbContext.SearchResults
+                .Include(s => s.Results)
                 .Where(sr => sr.SearchDate >= startDate && sr.SearchDate <= endDate)
-                .ToListAsync();
+                .ToList();
         }
 
         public async Task<SearchResult> AddAsync(SearchResult searchResult)
         {
+            await AddChildrenLinkPositions(searchResult.Results);
             var result = await _dbContext.SearchResults.AddAsync(searchResult);
             await _dbContext.SaveChangesAsync();
             return result.Entity;
@@ -33,6 +53,7 @@ namespace InfoTrackSEO.Domain.Repositories
 
         public async Task<SearchResult> UpdateAsync(SearchResult searchResult)
         {
+            await AddChildrenLinkPositions(searchResult.Results);
             _dbContext.Entry(searchResult).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
             return searchResult;

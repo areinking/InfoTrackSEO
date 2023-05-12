@@ -1,3 +1,4 @@
+using System.Web;
 using InfoTrackSEO.Domain.Repositories;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -73,13 +74,13 @@ namespace InfoTrackSEO.API.Controllers
         }
 
         [HttpGet("GetRange")]
-        public async Task<IActionResult> GetRange(DateTime startDate, DateTime endDate)
+        public IActionResult GetRange(DateTime startDate, DateTime endDate)
         {
             _logger.LogInformation("Starting search result range operation.");
 
             try
             {
-                var results = await _searchResultRepository.GetByDateRangeAsync(startDate, endDate);
+                var results = _searchResultRepository.GetByDateRange(startDate, endDate);
                 var searchResultDtos = results
                     .Select(
                         result =>

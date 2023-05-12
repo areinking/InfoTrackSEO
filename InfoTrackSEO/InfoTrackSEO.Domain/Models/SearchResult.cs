@@ -2,10 +2,7 @@ namespace InfoTrackSEO.Domain.Models
 {
     public class SearchResult
     {
-        public SearchResult()
-        {
-            Results = Enumerable.Empty<LinkPosition>();
-        }
+        private List<LinkPosition> results = new List<LinkPosition>();
 
         public SearchResult Create(CreateSearchResult createSearchResult)
         {
@@ -25,7 +22,7 @@ namespace InfoTrackSEO.Domain.Models
                 throw new ArgumentException("Cannot add more results to an executed search");
             }
 
-            Results = results;
+            Results = results.ToList();
 
             return this;
         }
@@ -64,7 +61,11 @@ namespace InfoTrackSEO.Domain.Models
         public DateTime SearchDate { get; private set; }
         public string? Keywords { get; private set; }
         public string? TargetUrl { get; private set; }
-        public IEnumerable<LinkPosition> Results { get; private set; }
+        public virtual List<LinkPosition> Results
+        {
+            get => results.OrderBy(r => r.Position).ToList();
+            private set => results = value;
+        }
         public string? Document { get; private set; }
     }
 }
