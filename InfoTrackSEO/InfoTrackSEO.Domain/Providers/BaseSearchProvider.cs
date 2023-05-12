@@ -30,10 +30,12 @@ public abstract class BaseSearchProvider : ISearchProvider
 
     public async Task<SearchResult> RunSearchRequestAsync(string keywords, string targetUrl)
     {
+        // create the domain object
         var searchResult = new SearchResult().Create(
             new CreateSearchResult(_searchProvider, DateTime.Now, keywords, targetUrl)
         );
 
+        // save the domain object and raise an event for other systems to know about it
         await _searchResultRepository.AddAsync(searchResult);
         var createSearchResultDomainEvent = new CreateSearchResultDomainEvent
         {
@@ -41,13 +43,15 @@ public abstract class BaseSearchProvider : ISearchProvider
         };
         await _eventBus.AsyncPublish(createSearchResultDomainEvent);
 
+        // run the search and update the domain model to have the raw results
         var searchResultContents = await RunSearch(keywords, targetUrl) ?? string.Empty;
         searchResult.SetDocument(searchResultContents);
 
+        // parse out the links and add meta data that we need for the user
         var results = ParseSearchResults(searchResultContents, targetUrl).Take(100).ToList();
-
         searchResult.SetResults(results);
 
+        // update the domain model in the db and raise an event for all to know it changed
         await _searchResultRepository.UpdateAsync(searchResult);
         var updateSearchResultDomainEvent = new UpdateSearchResultDomainEvent
         {
@@ -62,6 +66,8 @@ public abstract class BaseSearchProvider : ISearchProvider
     {
         using HttpClient httpClient = _httpClientFactory.CreateClient();
 
+        // other providers need an api key (like bing)
+        // I would have added bing as a provider, but there was too much setup
         var apiKeyHeaderKey = _apiKey.HasValue ? _apiKey.Value.Key : null;
         var apiKeyHeaderValue = _apiKey.HasValue ? _apiKey.Value.Value : null;
 
@@ -70,6 +76,7 @@ public abstract class BaseSearchProvider : ISearchProvider
             && !string.IsNullOrWhiteSpace(apiKeyHeaderValue)
         )
         {
+            // if there is an api key needed, add it to the headers
             httpClient.DefaultRequestHeaders.Add(apiKeyHeaderKey, apiKeyHeaderValue);
         }
 
