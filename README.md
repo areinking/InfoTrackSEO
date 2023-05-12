@@ -31,3 +31,23 @@
   * The results will be added to the list below
 * Click the header fields to sort as needed
 * Check the View Detail box to see the links that were returned by the search engine
+
+## UI
+
+* Home screen loading
+![Alt text](ReadMe.Images/InfoTrackSEO_1.png?raw=true "Home page after reading past results")
+
+* Home screen after loading past results
+![Alt text](ReadMe.Images/InfoTrackSEO_2.png?raw=true "Home page after reading past results")
+
+* Sorting by Positions header
+![Alt text](ReadMe.Images/InfoTrackSEO_3.png?raw=true "Sorting by Positions header")
+
+* Expanding detail
+![Alt text](ReadMe.Images/InfoTrackSEO_4.png?raw=true "Expanding detail")
+
+* Searching ...
+![Alt text](ReadMe.Images/InfoTrackSEO_5.png?raw=true "Searching ...")
+
+* New result
+![Alt text](ReadMe.Images/InfoTrackSEO_6.png?raw=true "New result")
