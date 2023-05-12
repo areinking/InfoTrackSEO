@@ -30,7 +30,7 @@ public abstract class BaseSearchProvider : ISearchProvider
 
     public async Task<SearchResult> RunSearchRequestAsync(string keywords, string targetUrl)
     {
-        var searchResult = new SearchResult(
+        var searchResult = new SearchResult().Create(
             new CreateSearchResult(_searchProvider, DateTime.Now, keywords, targetUrl)
         );
 

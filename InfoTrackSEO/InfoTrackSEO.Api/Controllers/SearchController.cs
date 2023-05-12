@@ -1,3 +1,4 @@
+using InfoTrackSEO.Domain.Repositories;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,14 +11,17 @@ namespace InfoTrackSEO.API.Controllers
     {
         private readonly ILogger<SearchController> _logger;
         private readonly SearchProviderFactory _searchProviderFactory;
+        private readonly ISearchResultRepository _searchResultRepository;
 
         public SearchController(
             ILogger<SearchController> logger,
-            SearchProviderFactory searchProviderFactory
+            SearchProviderFactory searchProviderFactory,
+            ISearchResultRepository searchResultRepository
         )
         {
             _logger = logger;
             _searchProviderFactory = searchProviderFactory;
+            _searchResultRepository = searchResultRepository;
         }
 
         [HttpPost]
@@ -64,6 +68,41 @@ namespace InfoTrackSEO.API.Controllers
                 return StatusCode(
                     500,
                     "An error occurred during the search operation. Please try again."
+                );
+            }
+        }
+
+        [HttpGet("GetRange")]
+        public async Task<IActionResult> GetRange(DateTime startDate, DateTime endDate)
+        {
+            _logger.LogInformation("Starting search result range operation.");
+
+            try
+            {
+                var results = await _searchResultRepository.GetByDateRangeAsync(startDate, endDate);
+                var searchResultDtos = results
+                    .Select(
+                        result =>
+                            new SearchResultDto
+                            {
+                                Positions = result.ToString(),
+                                Keywords = result.Keywords,
+                                SearchEngine = result.SearchProvider,
+                                SearchDate = result.SearchDate.ToShortDateString(),
+                                URL = result.TargetUrl,
+                                Results = result.Results
+                            }
+                    )
+                    .ToList();
+
+                return Ok(searchResultDtos);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred during the search result range operation.");
+                return StatusCode(
+                    500,
+                    "An error occurred during the search result range operation. Please try again."
                 );
             }
         }

@@ -71,4 +71,20 @@ ko.applyBindings(window.appViewModel);
 
 (function () {
   window.appViewModel.sortHeader("searchDate");
+
+  const today = new Date();
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(today.getDate() - 30);
+  
+  const startDate = thirtyDaysAgo.toISOString();
+  const endDate = today.toISOString();
+  
+  fetch(`/search/GetRange?startDate=${startDate}&endDate=${endDate}`)
+      .then(response => response.json())
+      .then(data => {
+          console.log(data); // Here is your data
+      })
+      .catch((error) => {
+          console.error('Error:', error);
+      });
 })();

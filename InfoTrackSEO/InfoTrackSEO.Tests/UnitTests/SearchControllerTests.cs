@@ -1,13 +1,9 @@
-using System.Threading.Tasks;
 using InfoTrackSEO.API.Controllers;
 using InfoTrackSEO.Domain.EventBus;
-using InfoTrackSEO.Domain.Models;
 using InfoTrackSEO.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Xunit;
 
 namespace InfoTrackSEO.Tests.UnitTests
 {
@@ -24,8 +20,9 @@ namespace InfoTrackSEO.Tests.UnitTests
             httpClientFactoryMock
                 .Setup(c => c.CreateClient(string.Empty))
                 .Returns(new Mock<HttpClient>().Object);
+            var searchResultRepository = new Mock<ISearchResultRepository>().Object;
             var googleSearchProvider = new GoogleSearchProvider(
-                new Mock<ISearchResultRepository>().Object,
+                searchResultRepository,
                 httpClientFactoryMock.Object,
                 new EventBus() // simple console write line, so it's okay not being mocked
             );
@@ -36,7 +33,11 @@ namespace InfoTrackSEO.Tests.UnitTests
                 .Returns(googleSearchProvider);
 
             _searchProviderFactory = new SearchProviderFactory(serviceProviderMock.Object);
-            _controller = new SearchController(_loggerMock.Object, _searchProviderFactory);
+            _controller = new SearchController(
+                _loggerMock.Object,
+                _searchProviderFactory,
+                searchResultRepository
+            );
         }
 
         [Theory]

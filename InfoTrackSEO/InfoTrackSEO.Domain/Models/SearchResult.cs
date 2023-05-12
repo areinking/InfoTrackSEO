@@ -2,14 +2,20 @@ namespace InfoTrackSEO.Domain.Models
 {
     public class SearchResult
     {
-        public SearchResult(CreateSearchResult createSearchResult)
+        public SearchResult()
+        {
+            Results = Enumerable.Empty<LinkPosition>();
+        }
+
+        public SearchResult Create(CreateSearchResult createSearchResult)
         {
             SearchProvider = createSearchResult.SearchProvider;
             SearchDate = createSearchResult.SearchDate;
             Keywords = Uri.EscapeDataString(createSearchResult.Keywords);
             TargetUrl = createSearchResult.TargetUrl;
-            Results = Enumerable.Empty<LinkPosition>();
             Id = Guid.NewGuid();
+
+            return this;
         }
 
         public SearchResult SetResults(IEnumerable<LinkPosition> results)
@@ -54,10 +60,10 @@ namespace InfoTrackSEO.Domain.Models
         }
 
         public Guid Id { get; private set; }
-        public string SearchProvider { get; private set; }
+        public string? SearchProvider { get; private set; }
         public DateTime SearchDate { get; private set; }
-        public string Keywords { get; private set; }
-        public string TargetUrl { get; private set; }
+        public string? Keywords { get; private set; }
+        public string? TargetUrl { get; private set; }
         public IEnumerable<LinkPosition> Results { get; private set; }
         public string? Document { get; private set; }
     }
