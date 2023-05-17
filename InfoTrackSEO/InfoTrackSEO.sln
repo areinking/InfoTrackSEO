@@ -3,23 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfoTrackSEO.API", "InfoTrackSEO.API\InfoTrackSEO.API.csproj", "{299DEA8B-4F2D-48A2-B24C-DC13CD54B39F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InfoTrackSEO.API", "InfoTrackSEO.API\InfoTrackSEO.API.csproj", "{299DEA8B-4F2D-48A2-B24C-DC13CD54B39F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfoTrackSEO.Domain", "InfoTrackSEO.Domain\InfoTrackSEO.Domain.csproj", "{119C84AB-C0BA-4E90-8457-19A9D7CFAAD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InfoTrackSEO.Domain", "InfoTrackSEO.Domain\InfoTrackSEO.Domain.csproj", "{119C84AB-C0BA-4E90-8457-19A9D7CFAAD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfoTrackSEO.Tests", "InfoTrackSEO.Tests\InfoTrackSEO.Tests.csproj", "{31C969F8-F4F4-4FBA-9814-DAE61C99DE9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InfoTrackSEO.Tests", "InfoTrackSEO.Tests\InfoTrackSEO.Tests.csproj", "{31C969F8-F4F4-4FBA-9814-DAE61C99DE9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfoTrackSEO.Web", "InfoTrackSEO.Web\InfoTrackSEO.Web.csproj", "{036C54D9-CA6D-45AD-AE37-808D4BE4F6BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InfoTrackSEO.Web", "InfoTrackSEO.Web\InfoTrackSEO.Web.csproj", "{036C54D9-CA6D-45AD-AE37-808D4BE4F6BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfoTrackSEO.UiTests", "InfoTrackSEO.UiTests\InfoTrackSEO.UiTests.csproj", "{4E581919-8039-4DA0-8599-5B56671FEC57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InfoTrackSEO.UiTests", "InfoTrackSEO.UiTests\InfoTrackSEO.UiTests.csproj", "{4E581919-8039-4DA0-8599-5B56671FEC57}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{30680587-7B41-4037-B86B-786B0FACE42F}"
+	ProjectSection(SolutionItems) = preProject
+		debug.ps1 = debug.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{299DEA8B-4F2D-48A2-B24C-DC13CD54B39F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -42,5 +44,11 @@ Global
 		{4E581919-8039-4DA0-8599-5B56671FEC57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E581919-8039-4DA0-8599-5B56671FEC57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E581919-8039-4DA0-8599-5B56671FEC57}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {11D5CD97-5ECE-46E6-8489-7E8BFAADB477}
 	EndGlobalSection
 EndGlobal
